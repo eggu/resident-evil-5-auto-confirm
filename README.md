@@ -27,8 +27,8 @@ Open `RE5.AutoConfirm.ini` in Notepad. Under `[Features]`, `1` enables a feature
 | `ShortSaveMessages` | 1 | Shorter minimum save/load message display time; actual file operations still complete normally |
 | `CoopInput` | 1 | Esc/Start pauses; Shift+Esc or LB+Start requests local co-op from the pause screen |
 | `ExtraSkipButtons` | 1 | Adds controller X/A to existing Back cutscene/event skipping |
-| `UnlockSkipRestrictions` | 0 | Allows skipping past the native event cutoff and selected blocked event restrictions |
-| `SkipStartupMovies` | 0 | Skips startup movies and CAPCOM/Dolby logos through the original completion paths |
+| `UnlockSkipRestrictions` | 0 | Experimental: allows skipping past the native event cutoff and selected blocked event restrictions |
+| `SkipStartupMovies` | 0 | Experimental: skips startup movies and CAPCOM/Dolby logos through the original completion paths |
 
 `[Timing]` sets `AutoConfirmSeconds` and `SaveMessageSeconds` (each 0–30 seconds, default 0.1). Set all six feature switches to `0` to leave the original behavior intact. Changes require a game restart. Menus, selection sounds, title Start delays, background transitions and menu fades keep their original timing. Old menu/fade settings are no longer used.
 
@@ -40,7 +40,7 @@ Only the matching 32-bit Steam DX9 code is supported. Other editions or conflict
 
 Startup skipping is off by default. It keeps the title screen, rating/disclaimer screens and native save-dialog procedure. A brief frame or fade can remain. Startup skipping is experimental: if a save error appears, exit without accepting save creation/replacement, set `SkipStartupMovies=0`, and restart.
 
-`UnlockSkipRestrictions` is experimental and off by default. Skipping the aircraft Wesker battle cutscene in Chapter 6-3 has been reported to restart the scene with both Back and X/A while restriction removal is enabled; the cause is unresolved. Early completion of other QTE/boss-linked scenes can also prevent progression. Leave this option off for normal play; if a scene loops or progression stalls, turn it off, restart the game and reload the checkpoint. The extra X/A buttons remain available with native skip restrictions intact.
+`UnlockSkipRestrictions` is experimental and off by default. It may affect progression in some scenes. The extra X/A buttons work without enabling this option.
 
 These UI timing changes do not fix renderer stutter or Korean translation/font issues.
 
