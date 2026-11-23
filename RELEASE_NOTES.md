@@ -7,6 +7,6 @@ Automatically confirms OK-only system messages in Resident Evil 5 Steam DX9. Yes
 - Adds X/A to the existing Back cutscene/event skip button.
 - Experimental startup movie/logo skipping and skip restriction removal, both off by default.
 
-Requires a working 32-bit ASI loader. Remove older UI Speed Tweaks, Coop Input, Cutscene Skip and Convenience Tweaks ASIs before installing. Preserve your existing INI when upgrading. See the English/Korean READMEs for installation and settings.
+Requires a working 32-bit ASI loader. Preserve your existing INI when upgrading. See the English/Korean READMEs for installation and settings.
 
 No game executables, saves, videos or ASI loader are included.

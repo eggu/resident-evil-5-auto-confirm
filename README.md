@@ -10,10 +10,9 @@ Automatically confirms OK-only system messages in Resident Evil 5, Steam PC Dire
 
 1. Exit the game. In Steam, right-click Resident Evil 5 → Manage → Browse local files.
 2. An ASI loader is required. Use the ASI loader already working with your game; this package does not include one.
-3. Remove `RE5.UISpeedTweaks.asi`, `RE5.CoopInput.asi`, `RE5.CutsceneSkip.asi` and `RE5.ConvenienceTweaks.asi` from the game folder and its `scripts`/`plugins` folders. Keep a copy outside the game folder if you want to restore them. Their old INI files are not imported. When upgrading from Convenience Tweaks, copy `RE5.ConvenienceTweaks.ini` to `RE5.AutoConfirm.ini` to keep your settings; remove the old ASI before installing the new one.
-4. Copy `RE5.AutoConfirm.asi` from `dist` beside `re5dx9.exe`. For a fresh install, copy `RE5.AutoConfirm.ini` too; when upgrading, keep the INI copied from your previous installation. Install one copy only, then start the game.
+3. Copy `RE5.AutoConfirm.asi` beside `re5dx9.exe`. For a fresh install, copy `RE5.AutoConfirm.ini` too; when upgrading, keep the INI copied from your previous installation. Install one copy only, then start the game.
 
-If an old ASI is detected, the integrated mod stays inactive. Do not rename old ASIs or load them from another folder to bypass this check. Mods that alter the same code can also prevent a feature from activating; see `RE5.AutoConfirm.log` beside the ASI.
+Mods that alter the same code can prevent a feature from activating; see `RE5.AutoConfirm.log` beside the ASI.
 
 Map, Partner AI, Inventory Tweaks and Korean translation mods are separate and are not included. Keep their files when upgrading this mod.
 
@@ -30,7 +29,7 @@ Open `RE5.AutoConfirm.ini` in Notepad. Under `[Features]`, `1` enables a feature
 | `UnlockSkipRestrictions` | 0 | Experimental: allows skipping past the native event cutoff and selected blocked event restrictions |
 | `SkipStartupMovies` | 0 | Experimental: skips startup movies and CAPCOM/Dolby logos through the original completion paths |
 
-`[Timing]` sets `AutoConfirmSeconds` and `SaveMessageSeconds` (each 0–30 seconds, default 0.1). Set all six feature switches to `0` to leave the original behavior intact. Changes require a game restart. Menus, selection sounds, title Start delays, background transitions and menu fades keep their original timing. Old menu/fade settings are no longer used.
+`[Timing]` sets `AutoConfirmSeconds` and `SaveMessageSeconds` (each 0–30 seconds, default 0.1). Set all six feature switches to `0` to leave the original behavior intact. Changes require a game restart. Menus, selection sounds, title Start delays, background transitions and menu fades keep their original timing.
 
 Back remains available. Co-op skip confirmation, gameplay action/reload/map bindings and the original on-screen skip hints remain. Local co-op still requires the game's normal device/session conditions.
 
@@ -44,9 +43,9 @@ Startup skipping is off by default. It keeps the title screen, rating/disclaimer
 
 These UI timing changes do not fix renderer stutter or Korean translation/font issues.
 
-## Remove or restore the old mods
+## Uninstall
 
-Exit the game and delete `RE5.AutoConfirm.asi`. You may also remove its INI and log. To return to the old mods, restore their ASIs and matching INIs only after removing the integrated ASI. The game executable and save files are not patched by this mod.
+Exit the game and delete `RE5.AutoConfirm.asi`. You may also remove its INI and log. The game executable and save files are not patched by this mod.
 
 ## Build
 

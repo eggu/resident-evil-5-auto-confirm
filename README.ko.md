@@ -10,10 +10,9 @@ Resident Evil 5 Steam PC DirectX 9의 OK 단일 시스템 알림을 자동 확�
 
 1. 게임을 종료합니다. Steam에서 Resident Evil 5를 오른쪽 클릭 → 관리 → 로컬 파일 보기를 선택합니다.
 2. ASI 로더가 필요합니다. 게임에서 이미 작동하는 ASI 로더를 사용하세요. 이 패키지에는 로더가 포함되어 있지 않습니다.
-3. 게임 폴더와 그 안의 `scripts`·`plugins` 폴더에서 `RE5.UISpeedTweaks.asi`, `RE5.CoopInput.asi`, `RE5.CutsceneSkip.asi`, `RE5.ConvenienceTweaks.asi`를 제거합니다. 복원하려면 게임 폴더 밖에 복사해 두세요. 기존 INI 설정은 자동으로 가져오지 않습니다. Convenience Tweaks에서 업그레이드할 때는 `RE5.ConvenienceTweaks.ini`를 `RE5.AutoConfirm.ini`로 복사하면 설정을 유지할 수 있습니다. 새 모드를 설치하기 전에 기존 ASI를 제거하세요.
-4. `dist`의 `RE5.AutoConfirm.asi`를 `re5dx9.exe` 옆에 복사합니다. 처음 설치한다면 `RE5.AutoConfirm.ini`도 복사하고, 업그레이드라면 이전 설치에서 복사한 INI를 유지하세요. 한 벌만 설치한 뒤 게임을 시작합니다.
+3. `RE5.AutoConfirm.asi`를 `re5dx9.exe` 옆에 복사합니다. 처음 설치한다면 `RE5.AutoConfirm.ini`도 복사하고, 업그레이드라면 이전 설치에서 복사한 INI를 유지하세요. 한 벌만 설치한 뒤 게임을 시작합니다.
 
-기존 ASI가 감지되면 통합 모드는 작동하지 않습니다. 이름을 바꾸거나 다른 폴더에서 불러와 이 검사를 우회하지 마세요. 같은 코드를 수정하는 모드도 해당 기능의 작동을 막을 수 있습니다. ASI 옆의 `RE5.AutoConfirm.log`를 확인하세요.
+같은 코드를 수정하는 모드는 해당 기능의 작동을 막을 수 있습니다. ASI 옆의 `RE5.AutoConfirm.log`를 확인하세요.
 
 지도·Partner AI·Inventory Tweaks·한글 패치는 별도 모드이며 포함되어 있지 않습니다. 업그레이드할 때 해당 파일은 유지하세요.
 
@@ -30,7 +29,7 @@ Resident Evil 5 Steam PC DirectX 9의 OK 단일 시스템 알림을 자동 확�
 | `UnlockSkipRestrictions` | 0 | 실험 기능: 이벤트 스킵 시간 제한과 일부 이벤트 스킵 금지 해제 |
 | `SkipStartupMovies` | 0 | 실험 기능: 원래 종료 경로를 이용해 시작 영상과 CAPCOM/Dolby 로고 스킵 |
 
-`[Timing]`에서 `AutoConfirmSeconds`와 `SaveMessageSeconds`를 조절합니다(각각 0~30초, 기본 0.1초). 여섯 기능을 모두 `0`으로 두면 원래 동작을 유지합니다. 설정 변경 후에는 게임을 재시작하세요. 메뉴·선택 효과음·타이틀 Start 대기·배경 전환·메뉴 페이드는 원래 속도를 유지합니다. 이전 메뉴·페이드 설정은 더 이상 사용하지 않습니다.
+`[Timing]`에서 `AutoConfirmSeconds`와 `SaveMessageSeconds`를 조절합니다(각각 0~30초, 기본 0.1초). 여섯 기능을 모두 `0`으로 두면 원래 동작을 유지합니다. 설정 변경 후에는 게임을 재시작하세요. 메뉴·선택 효과음·타이틀 Start 대기·배경 전환·메뉴 페이드는 원래 속도를 유지합니다.
 
 기존 Back 스킵도 사용할 수 있습니다. 협동 스킵 확인 절차, 게임 중 액션·재장전·지도 조작과 기존 화면의 스킵 안내는 유지합니다. 로컬 협동은 게임의 기존 장치·세션 조건을 충족해야 합니다.
 
@@ -44,9 +43,9 @@ Resident Evil 5 Steam PC DirectX 9의 OK 단일 시스템 알림을 자동 확�
 
 UI 대기 시간 단축은 렌더러 멈칫거림이나 한글 번역·글꼴 문제를 해결하지 않습니다.
 
-## 제거·기존 모드 복원
+## 제거
 
-게임을 종료하고 `RE5.AutoConfirm.asi`를 삭제합니다. INI와 로그도 삭제해도 됩니다. 기존 모드로 돌아가려면 통합 ASI를 제거한 다음 기존 ASI와 그에 맞는 INI를 복원하세요. 이 모드는 게임 실행 파일과 세이브 파일을 패치하지 않습니다.
+게임을 종료하고 `RE5.AutoConfirm.asi`를 삭제합니다. INI와 로그도 삭제해도 됩니다. 이 모드는 게임 실행 파일과 세이브 파일을 패치하지 않습니다.
 
 ## 빌드
 
