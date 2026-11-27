@@ -22,6 +22,39 @@ static int legacy_in(const char *directory) {
     }
     return 0;
 }
+// re5dx9.exe is wrapped in Enigma Protector: it decrypts the game while it starts and checks the image, and a write
+// into the image in that window quits the game with "Program integrity check failed". No feature worker starts (so
+// nothing is patched) until the game's entry point has run (CRT security cookie 0x11ac150 initialised, its complement
+// next to it), its own window (class MTFramework, this process) exists and 3 s have passed. Each worker still checks
+// the decrypted code before patching. Never on a timeout. Same gate as Battle Buddy / RE3Controls.
+static int entry_point_passed(void) {
+    const DWORD *cookie = (const DWORD *)0x11ac150;
+    MEMORY_BASIC_INFORMATION m;
+    return VirtualQuery(cookie, &m, sizeof m) && m.State == MEM_COMMIT
+        && !(m.Protect & (PAGE_NOACCESS | PAGE_GUARD))
+        && (DWORD)cookie + 8 <= (DWORD)m.BaseAddress + m.RegionSize
+        && cookie[0] != 0xbb40e64e && cookie[1] == ~cookie[0];
+}
+static BOOL CALLBACK find_game_window(HWND window, LPARAM found) {
+    DWORD pid = 0;
+    char name[32];
+    GetWindowThreadProcessId(window, &pid);
+    if (pid == GetCurrentProcessId() && GetClassNameA(window, name, sizeof name) && !strcmp(name, "MTFramework")) {
+        *(HWND *)found = window;
+        return FALSE;
+    }
+    return TRUE;
+}
+static int game_window_up(void) {
+    HWND window = NULL;
+    EnumWindows(find_game_window, (LPARAM)&window);
+    return window != NULL;
+}
+static int wait_for(int (*ready)(void), DWORD timeout) {
+    for (DWORD start = GetTickCount(); !ready(); Sleep(20))
+        if (GetTickCount() - start > timeout) return 0;
+    return 1;
+}
 static DWORD WINAPI initialize(void *module) {
     char directory[MAX_PATH], executable[MAX_PATH], child[MAX_PATH];
     strcpy(directory, ini);
@@ -41,6 +74,16 @@ static DWORD WINAPI initialize(void *module) {
         report("Legacy ASI detected: remove RE5.UISpeedTweaks.asi, RE5.CoopInput.asi RE5.CutsceneSkip.asi and RE5.ConvenienceTweaks.asi; no integrated features started.");
         return 1;
     }
+    if (!wait_for(entry_point_passed, 120000)) {
+        report("Game entry point not reached; nothing changed (no patch before the integrity check).");
+        return 1;
+    }
+    if (!wait_for(game_window_up, 300000)) {
+        report("Game window did not appear; nothing changed.");
+        return 1;
+    }
+    Sleep(3000);
+    report("Game running; patching now.");
     HINSTANCE h = (HINSTANCE)module;
     if (option("ShortSaveMessages", 1) || option("AutoConfirmOK", 1)) ui_init(h, DLL_PROCESS_ATTACH, NULL);
     if (option("CoopInput", 1)) coop_init(h, DLL_PROCESS_ATTACH, NULL);

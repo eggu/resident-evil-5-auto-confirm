@@ -5,6 +5,7 @@
 #include <string.h>
 #include <assert.h>
 #include "../../src/skip/signatures.h"
+#include "../game_running.h"
 static volatile BYTE image_space[0x1900000];
 static BYTE bio[0x700], event[0x158], system_data[0x10440], session[0x800], network[0x1900];
 static uint32_t __attribute__((naked)) run_gate(BYTE *e __attribute__((unused)), unsigned frame __attribute__((unused))) {
@@ -69,8 +70,9 @@ int main(int argc, char **argv) {
         *(BYTE **)0x1234578=bio;
         *(BYTE **)0x11e8804=event;
         *(BYTE *)0x799820 ^= 1;
+        game_running();
         assert(LoadLibraryA("RE5.AutoConfirm.asi"));
-        Sleep(400);
+        Sleep(GATE_MS + 400);
         for(unsigned i=0;i<14;i++) assert(!memcmp((void *)sites[i],originals[i],5));
         puts("Unsupported input helper: all scene/startup patches rejected");
         return 0;
@@ -80,23 +82,30 @@ int main(int argc, char **argv) {
             HANDLE f=CreateFileA(legacy,GENERIC_WRITE,0,NULL,CREATE_ALWAYS,0,NULL);
             assert(f!=INVALID_HANDLE_VALUE); CloseHandle(f);
         }
-        assert(LoadLibraryA("RE5.AutoConfirm.asi")); Sleep(500);
+        game_running();
+        assert(LoadLibraryA("RE5.AutoConfirm.asi")); Sleep(GATE_MS + 500);
         for(unsigned i=0;i<14;i++) assert(!memcmp((void *)sites[i],originals[i],5));
         assert(!memcmp((void *)0xbfb627,movie_original,5));
         assert(!memcmp((void *)0x7b2966,event_gate,sizeof event_gate));
         if(conflict) assert(DeleteFileA(legacy));
         puts("Disabled/conflicting features: native bytes preserved"); return 0;
     }
+    // Code and managers ready, game not yet running: the startup gate must hold every patch.
+    *(BYTE **)0x1234578=bio;
+    *(BYTE **)0x11e8804=event;
+    assert(LoadLibraryA("RE5.AutoConfirm.asi"));
+    Sleep(500);
+    for(unsigned i=0;i<14;i++) assert(!memcmp((void *)sites[i],originals[i],5));
     *(BYTE **)0x1234578=NULL;
     *(BYTE **)0x11e8804=NULL;
     DWORD loaded_at=GetTickCount();
-    assert(LoadLibraryA("RE5.AutoConfirm.asi"));
-    Sleep(200);
+    game_running();
+    Sleep(GATE_MS + 200);
     for(unsigned i=0;i<14;i++) assert(!memcmp((void *)sites[i],originals[i],5));
     *(BYTE **)0x1234578=bio;
     *(BYTE **)0x11e8804=event;
     Sleep(300);
-    assert(GetTickCount()-loaded_at < 2000); // No fixed five-second delay.
+    assert(GetTickCount()-loaded_at < GATE_MS + 2000); // No fixed five-second delay after the gate.
     for(unsigned i=0;i<14;i++) assert((memcmp((void *)sites[i],originals[i],5) != 0) == (i < 7 && buttons));
     for(unsigned i=0;i<sizeof signatures/sizeof *signatures;i++) {
         const struct Signature *s=signatures+i;

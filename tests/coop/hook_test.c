@@ -5,6 +5,7 @@
 #include <string.h>
 #include <assert.h>
 #include "../../src/coop/signatures.h"
+#include "../game_running.h"
 
 static BYTE bio[0x700], keyboard[0x2400], system_data[0x10440];
 static void put(BYTE *p, DWORD value) { memcpy(p, &value, 4); }
@@ -47,13 +48,14 @@ int main(int argc, char **argv) {
     *(BYTE **)0x1249c74 = keyboard;
     *(BYTE **)0x1249c40 = bio;
     if(unsupported) *(BYTE *)0x79ada0 ^= 1;
+    game_running();
     HMODULE asi = LoadLibraryA(argv[1]); assert(asi);
     if(disabled_mode || unsupported) {
-        Sleep(6000);
+        Sleep(GATE_MS + 6000);
         for(unsigned i=0;i<3;i++) assert(!memcmp((void *)calls[i],originals[i],5));
         puts("Disabled/unsupported co-op: native calls preserved"); return 0;
     }
-    for (int i=0; i<80 && !memcmp((void *)calls[0], originals[0], 5); i++) Sleep(100);
+    for (int i=0; i<80 + GATE_MS / 100 && !memcmp((void *)calls[0], originals[0], 5); i++) Sleep(100);
     for (unsigned i=0; i<3; i++) assert(memcmp((void *)calls[i], originals[i], 5));
     put(system_data+0x10438, 0x1000);
     bio[0x38]=bio[0x3b]=bio[0x2f8]=bio[0x2fb]=1;

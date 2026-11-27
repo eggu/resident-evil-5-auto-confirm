@@ -1,3 +1,7 @@
+# RE5 Auto Confirm 1.0.1
+
+- Fixed the game sometimes closing at startup with a "Program integrity check failed" warning, mostly when several mods are installed.
+
 # RE5 Auto Confirm 1.0.0
 
 Automatically confirms OK-only system messages in Resident Evil 5 Steam DX9. Yes/No choices remain manual.
